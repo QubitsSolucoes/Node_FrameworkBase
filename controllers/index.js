@@ -1,7 +1,7 @@
-const Validator = require('../helpers/validator.js');
-
 // GET
 exports.post = (req, res, next) => {
+
+    let Validator = require('../helpers/validator.js');
 
     //Limpa os Erros
     //Validator._reset();
