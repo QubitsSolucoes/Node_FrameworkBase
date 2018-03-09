@@ -4,10 +4,10 @@ const Validator = require('../helpers/validator.js');
 exports.post = (req, res, next) => {
 
     //Limpa os Erros
-    Validator._reset();
+    //Validator._reset();
 
     //Todas as Validações aqui:
-    Validator.validacao('estado', req.body.estado, ['required', 'string', 'exact_length:2', 'alpha']);
+    Validator.validacao('estado', req.body.estado, ['required', 'string', 'alpha']);
     Validator.validacao('cidade', req.body.cidade, ['required', 'string'] );
     Validator.validacao('bairro', req.body.bairro, ['required', 'string'] );
     Validator.validacao('rua', req.body.rua, ['required', 'string'] );
