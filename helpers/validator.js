@@ -1,8 +1,59 @@
 let errors = [];
+let self = this;
+//-------------------------------------------------
 
-function Validador() {
-    errors = [];
-}
+module.exports.validacao = function(nomeCampo, value, validacoes) {
+
+    validacoes.forEach(function (item) {
+
+        let arg;
+        let validacao = item;
+
+        if (validacao.includes(":")){
+            arg = validacao.split(':');
+            validacao = arg[0];
+        }
+
+        switch (validacao) {
+            case 'required':
+                self.required(value, nomeCampo); break;
+
+            case 'numeric':
+                self.numeric(value, nomeCampo); break;
+            case 'string':
+                self.string(value, nomeCampo); break;
+            case 'boolean':
+                self.boolean(value, nomeCampo); break;
+            case 'object':
+                self.object(value, nomeCampo); break;
+
+            case 'min_length':
+                self.min_length(value, arg[1], nomeCampo); break;
+            case 'max_length':
+                self.max_length(value, arg[1], nomeCampo); break;
+            case 'exact_length':
+                self.exact_length(value, arg[1], nomeCampo); break;
+
+            case 'greater_than':
+                self.greater_than(value, arg[1], nomeCampo); break;
+            case 'less_than':
+                self.less_than(value, arg[1], nomeCampo); break;
+
+            case 'alpha':
+                self.alpha(value, nomeCampo); break;
+            case 'alpha_numeric':
+                self.alpha_numeric(value, nomeCampo); break;
+
+            case 'valid_email':
+                self.valid_email(value, nomeCampo); break;
+            case 'valid_date':
+                self.valid_date(value, nomeCampo); break;
+        }
+    });
+};
+
+
+//-------------------------------------------------
 
 /*
 #--------------------------
@@ -14,7 +65,7 @@ function Validador() {
 #--------------------------
 */
 
-Validador.prototype.required = (value, nomeCampo) => {
+module.exports.required = function(value, nomeCampo) {
 
     if (!value || value.length <= 0) {
         errors.push({message: `O campo ${nomeCampo} é obrigatório`});
@@ -31,7 +82,7 @@ Validador.prototype.required = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.numeric = (value, nomeCampo) => {
+module.exports.numeric = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -51,7 +102,7 @@ Validador.prototype.numeric = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.string = (value, nomeCampo) => {
+module.exports.string = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -71,7 +122,7 @@ Validador.prototype.string = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.boolean = (value, nomeCampo) => {
+module.exports.boolean = function(value, nomeCampo) {
 
     /// pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -91,7 +142,7 @@ Validador.prototype.boolean = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.object = (value, nomeCampo) => {
+module.exports.object = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -115,12 +166,12 @@ Validador.prototype.object = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.min_length = (value, min, nomeCampo) => {
+module.exports.min_length = function(value, min, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
 
-    if (value.length < min) {
+    if (value.length <= min) {
         errors.push({message: `O campo ${nomeCampo} deve ter no mínimo ${min} caracteres`});
     }
 };
@@ -136,12 +187,12 @@ Validador.prototype.min_length = (value, min, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.max_length = (value, max, nomeCampo) => {
+module.exports.max_length = function(value, max, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
 
-    if (value.length > max) {
+    if (value.length >= max) {
         errors.push({message: `O campo ${nomeCampo} deve ter no máximo ${max} caracteres`});
     }
 };
@@ -157,12 +208,12 @@ Validador.prototype.max_length = (value, max, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.exact_length = (value, len, nomeCampo) => {
+module.exports.exact_length = function(value, len, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
 
-    if (value.length != len) {
+    if (value.length !== len) {
         errors.push({message: `O campo ${nomeCampo} deve ter exatos ${len} caracteres`});
     }
 };
@@ -181,7 +232,7 @@ Validador.prototype.exact_length = (value, len, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.greater_than = (value, min, nomeCampo) => {
+module.exports.greater_than = function(value, min, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -202,7 +253,7 @@ Validador.prototype.greater_than = (value, min, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.less_than = (value, max, nomeCampo) => {
+module.exports.less_than = function(value, max, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -225,7 +276,7 @@ Validador.prototype.less_than = (value, max, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.alpha = (value, nomeCampo) => {
+module.exports.alpha = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -248,7 +299,7 @@ Validador.prototype.alpha = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.alpha_numeric = (value, nomeCampo) => {
+module.exports.alpha_numeric = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -273,7 +324,7 @@ Validador.prototype.alpha_numeric = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.valid_email = (value, nomeCampo) => {
+module.exports.valid_email = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -295,7 +346,7 @@ Validador.prototype.valid_email = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.valid_date = (value, nomeCampo) => {
+module.exports.valid_date = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -318,7 +369,7 @@ Validador.prototype.valid_date = (value, nomeCampo) => {
 #--------------------------
 */
 
-Validador.prototype.valid_cpf = (value, nomeCampo) => {
+module.exports.valid_cpf = function(value, nomeCampo) {
 
     // pula variáveis quebradas
     if (value === null || value === undefined || value === '' || value.length <= 0) {return;}
@@ -326,19 +377,19 @@ Validador.prototype.valid_cpf = (value, nomeCampo) => {
     // elimina formatação
     value = value.replace(/\.|-/g, '');
 
-    if (value == "00000000000" || value == "11111111111" ||
-        value == "22222222222" || value == "33333333333" ||
-        value == "44444444444" || value == "55555555555" ||
-        value == "66666666666" || value == "77777777777" ||
-        value == "88888888888" || value == "99999999999") {
+    if (value === "00000000000" || value === "11111111111" ||
+        value === "22222222222" || value === "33333333333" ||
+        value === "44444444444" || value === "55555555555" ||
+        value === "66666666666" || value === "77777777777" ||
+        value === "88888888888" || value === "99999999999") {
 
         errors.push({message: `O campo ${nomeCampo} deve ser um cpf válido`});
         return;
     }
 
 
-    var r;
-    var s = 0;
+    let r;
+    let s = 0;
 
     for (i=1; i<=9; i++) {
         s = s + parseInt(value[i-1]) * (11 - i);
@@ -346,11 +397,11 @@ Validador.prototype.valid_cpf = (value, nomeCampo) => {
 
     r = (s * 10) % 11;
 
-    if ((r == 10) || (r == 11)) {
+    if ((r === 10) || (r === 11)) {
         r = 0;
     }
 
-    if (r != parseInt(value[9])) {
+    if (r !== parseInt(value[9])) {
         errors.push({message: `O campo ${nomeCampo} deve ser um cpf válido`});
         return;
     }
@@ -363,15 +414,15 @@ Validador.prototype.valid_cpf = (value, nomeCampo) => {
 
     r = (s * 10) % 11;
 
-    if ((r == 10) || (r == 11)) {
+    if ((r === 10) || (r === 11)) {
         r = 0;
     }
 
-    if (r != parseInt(value[10])) {
+    if (r !== parseInt(value[10])) {
         errors.push({message: `O campo ${nomeCampo} deve ser um cpf válido`});
-        return;
     }
 };
+
 
 /*
 ######
@@ -381,16 +432,14 @@ Validador.prototype.valid_cpf = (value, nomeCampo) => {
 ######
 */
 
-Validador.prototype._errors = () => {
+module.exports._errors = function() {
     return errors;
 };
 
-Validador.prototype._reset = () => {
+module.exports._validate = function() {
+    return errors.length === 0;
+};
+
+module.exports._reset = function() {
     errors = [];
 };
-
-Validador.prototype._validate = () => {
-    return errors.length == 0;
-};
-
-module.exports = Validador;
