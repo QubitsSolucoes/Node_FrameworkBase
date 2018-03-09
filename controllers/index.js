@@ -1,7 +1,7 @@
 const Validator = require('../helpers/validator.js');
 
 // GET
-exports.get = (req, res, next) => {
+exports.post = (req, res, next) => {
 
     //Limpa os Erros
     Validator._reset();
@@ -15,7 +15,7 @@ exports.get = (req, res, next) => {
     //Caso contrário...Continua com a Lógica
 
 
-    res.status(200).send({
+    res.status(201).send({
         title: 'Express',
         erro: Validator._errors()
     });
