@@ -7,10 +7,10 @@ exports.get = (req, res, next) => {
     Validator._reset();
 
     //Todas as Validações aqui:
-    Validator.validacao('estado', 'SP', ['required', 'string', 'exact_length:2', 'alpha']);
-    Validator.validacao('cidade', 'Guarujá', ['required', 'string'] );
-    //Validator.validacao('bairro', 'Encruzilhada', ['required', 'string'] );
-    //Validator.validacao('rua', 'Dr. Guedes Coelho', ['required', 'string'] );
+    Validator.validacao('estado', req.body.estado, ['required', 'string', 'exact_length:2', 'alpha']);
+    Validator.validacao('cidade', req.body.cidade, ['required', 'string'] );
+    Validator.validacao('bairro', req.body.bairro, ['required', 'string'] );
+    Validator.validacao('rua', req.body.rua, ['required', 'string'] );
 
     //Caso contrário...Continua com a Lógica
 
