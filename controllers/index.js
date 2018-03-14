@@ -1,24 +1,20 @@
+let validator = require('../helpers/validator_new.js')();
+
 // GET
 exports.post = (req, res, next) => {
 
-    let Validator_ = require('../helpers/validator.js');
-    let Validator = new Validator_();
-
-    //Limpa os Erros
-    //Validator._reset();
+    //Inicializa Validador
+    validator._cleanErrors();
 
     //Todas as Validações aqui:
-    Validator.validacao('estado', req.body.estado, ['required', 'string', 'alpha']);
-    Validator.validacao('cidade', req.body.cidade, ['required', 'string'] );
-    Validator.validacao('bairro', req.body.bairro, ['required', 'string'] );
-    Validator.validacao('rua', req.body.rua, ['required', 'string'] );
-
-    //Caso contrário...Continua com a Lógica
-
+    validator.validate('estado', req.body.estado, ['required', 'string', 'alpha']);
+    validator.validate('cidade', req.body.cidade, ['required', 'string'] );
+    validator.validate('bairro', req.body.bairro, ['required', 'string'] );
+    validator.validate('rua', req.body.rua, ['required', 'string'] );
 
     res.status(201).send({
         title: 'Express',
-        erro: Validator._errors()
+        erro: validator._getErrors()
     });
 
     //.....

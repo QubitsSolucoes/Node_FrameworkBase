@@ -1,25 +1,10 @@
-let errors;
-let self = this;
-//-------------------------------------------------
+const Validator = function() {
 
-function Validator() {
+    let errors;
+    let self = this;
+    //-------------------------------------------------
 
-    let errors = [];
-
-    function _errors() {
-        return errors;
-    }
-
-    function _validate() {
-        return errors.length === 0;
-    }
-
-    function _reset() {
-        errors = [];
-    }
-
-
-    function validacao(nomeCampo, value, validacoes) {
+    const validacao = function (nomeCampo, value, validacoes) {
 
         validacoes.forEach(function (item) {
 
@@ -33,55 +18,58 @@ function Validator() {
 
             switch (validacao) {
                 case 'required':
-                    required(value, nomeCampo);
+                    module.exports.required(value, nomeCampo);
                     break;
 
                 case 'numeric':
-                    numeric(value, nomeCampo);
+                    module.exports.numeric(value, nomeCampo);
                     break;
                 case 'string':
-                    string(value, nomeCampo);
+                    module.exports.string(value, nomeCampo);
                     break;
                 case 'boolean':
-                    boolean(value, nomeCampo);
+                    module.exports.boolean(value, nomeCampo);
                     break;
                 case 'object':
-                    object(value, nomeCampo);
+                    module.exports.object(value, nomeCampo);
                     break;
 
                 case 'min_length':
-                    min_length(value, arg[1], nomeCampo);
+                    module.exports.min_length(value, arg[1], nomeCampo);
                     break;
                 case 'max_length':
-                    max_length(value, arg[1], nomeCampo);
+                    module.exports.max_length(value, arg[1], nomeCampo);
                     break;
                 case 'exact_length':
-                    exact_length(value, arg[1], nomeCampo);
+                    module.exports.exact_length(value, arg[1], nomeCampo);
                     break;
 
                 case 'greater_than':
-                    greater_than(value, arg[1], nomeCampo);
+                    module.exports.greater_than(value, arg[1], nomeCampo);
                     break;
                 case 'less_than':
-                    less_than(value, arg[1], nomeCampo);
+                    module.exports.less_than(value, arg[1], nomeCampo);
                     break;
 
                 case 'alpha':
-                    alpha(value, nomeCampo);
+                    module.exports.alpha(value, nomeCampo);
                     break;
                 case 'alpha_numeric':
-                    alpha_numeric(value, nomeCampo);
+                    module.exports.alpha_numeric(value, nomeCampo);
                     break;
 
                 case 'valid_email':
-                    valid_email(value, nomeCampo);
+                    module.exports.valid_email(value, nomeCampo);
                     break;
                 case 'valid_date':
-                    valid_date(value, nomeCampo);
+                    module.exports.valid_date(value, nomeCampo);
+                    break;
+                case 'valid_cpf':
+                    module.exports.valid_cpf(value, nomeCampo);
                     break;
             }
         });
-    }
+    };
 
 
     //-------------------------------------------------
@@ -483,6 +471,53 @@ function Validator() {
     };
 
 
-}
+    /*
+    ######
+    #
+    #  Funções Internas ----------------------------------------
+    #
+    ######
+    */
+
+    const _errors = function () {
+        return errors;
+    };
+
+    const _validate = function () {
+        return errors.length === 0;
+    };
+
+    const _reset = function () {
+        errors = [];
+    };
+
+    return {
+        required: required,
+
+        string: string,
+        boolean: boolean,
+        object: object,
+
+        min_length: min_length,
+        max_length: max_length,
+        exact_length: exact_length,
+
+        greater_than: greater_than,
+        less_than: less_than,
+
+        alpha: alpha,
+        alpha_numeric: alpha_numeric,
+
+        valid_email: valid_email,
+        valid_date: valid_date,
+        valid_cpf: valid_cpf,
+
+        validacao: validacao,
+        _errors: _errors,
+        _validate: _validate,
+        _reset: _reset
+    };
+
+};
 
 module.exports = Validator;
