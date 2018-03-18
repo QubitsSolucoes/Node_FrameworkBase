@@ -1,9 +1,9 @@
-const md5 = require('md5');
+const md5 = require('md5')
 
-var KEY;
+var KEY
 
 function Criptografia () {
-    KEY = 'XJZQ-2CSP-VS5F-OVGW-FAD2-34RP';
+  KEY = 'XJZQ-2CSP-VS5F-OVGW-FAD2-34RP'
 }
 
 /*
@@ -16,10 +16,9 @@ function Criptografia () {
 */
 
 Criptografia.prototype.criptografar = (value) => {
-
-    let criptografado = md5(value + KEY);
-    return criptografado;
-};
+  let criptografado = md5(value + KEY)
+  return criptografado
+}
 
 /*
 #--------------------------
@@ -32,12 +31,9 @@ Criptografia.prototype.criptografar = (value) => {
 */
 
 Criptografia.prototype.comparar = (value, hash) => {
+  let criptografado = md5(value + KEY)
 
-    let criptografado = md5(value + KEY);
+  if (criptografado === hash) { return true } else { return false }
+}
 
-    if (criptografado === hash) {return true;}
-    else {return false;}
-
-};
-
-module.exports = Criptografia;
+module.exports = Criptografia
