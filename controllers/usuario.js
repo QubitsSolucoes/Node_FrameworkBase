@@ -1,6 +1,6 @@
 // dependências
 const mongoose = require('mongoose')
-const usuarios_model = mongoose.model('Usuarios')
+const usuariosModel = mongoose.model('Usuarios')
 
 //* *******************
 //                   *
@@ -10,7 +10,7 @@ const usuarios_model = mongoose.model('Usuarios')
 
 exports.getAllUsuarios = (req, res, next) => {
   // recepção
-  usuarios_model
+  usuariosModel
     .find({}, 'nome email')
     .then(data => {
       res.status(200).send(data)
@@ -27,11 +27,11 @@ exports.getAllUsuarios = (req, res, next) => {
 //* *************************
 
 exports.getUsuario = (req, res, next) => {
-  let o_id = mongoose.Types.ObjectId(req.params.id)
+  let objectId = mongoose.Types.ObjectId(req.params.id)
 
   // recepção
-  usuarios_model
-    .findOne({_id: o_id})
+  usuariosModel
+    .findOne({_id: objectId})
     .then(data => {
       res.status(200).send(data)
     })
@@ -47,7 +47,7 @@ exports.getUsuario = (req, res, next) => {
 //* ******************
 
 exports.addUsuario = (req, res, next) => {
-  let usuario = new usuarios_model()
+  let usuario = new usuariosModel()
 
   // variáveis
   usuario.nome = req.body.nome
@@ -91,7 +91,7 @@ exports.addUsuario = (req, res, next) => {
 
 exports.editUsuario = (req, res, next) => {
   // atualização
-  usuarios_model
+  usuariosModel
     .findOneAndUpdate(req.params.id, {
       $set: {
         // variáveis
@@ -134,7 +134,7 @@ exports.editUsuario = (req, res, next) => {
 
 exports.delUsuario = (req, res, next) => {
   // deleção
-  usuarios_model
+  usuariosModel
     .findOneAndRemove(req.params.id)
     .then(data => {
       res.status(200).send({

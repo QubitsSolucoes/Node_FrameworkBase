@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const favicon = require('serve-favicon')
+//const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -24,14 +24,14 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // carrega os models
-const usuarios_model = require('./models/usuarios')
+const usuariosModel = require('./models/usuarios.js')
 
 // carregas as rotas
-const index = require('./routes/index')
-const usuario = require('./routes/usuario')
+const indexRoute = require('./routes/index.js')
+const usuarioRoute = require('./routes/usuario.js')
 
-app.use('/', index)
-app.use('/usuario', usuario)
+app.use('/', indexRoute)
+app.use('/usuario', usuarioRoute)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
